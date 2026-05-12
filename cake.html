@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Wish....</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #2b102f 0%, #0f0c29 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* --- Stars Background --- */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* --- Title --- */
+        .title {
+            color: #ffb7c5;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255, 183, 197, 0.5);
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- The Cake Container --- */
+        .cake-stage {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            transition: transform 1s ease;
+        }
+
+        /* The Plate */
+        .plate {
+            position: absolute;
+            bottom: 0;
+            width: 280px;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        /* Cake Body - Layers */
+        .cake-body {
+            position: absolute;
+            bottom: 10px;
+            width: 240px;
+            height: 140px;
+            background: #ff9eb5; /* Pink base */
+            border-radius: 20px 20px 10px 10px;
+            box-shadow: inset -10px -5px rgba(0,0,0,0.1), 5px 5px 15px rgba(0,0,0,0.2);
+            z-index: 3;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Frosting Drips */
+        .frosting-drip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: #fff0f5;
+            border-radius: 20px 20px 50px 50px;
+            z-index: 4;
+        }
+        .frosting-drip::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 20px;
+            width: 15px;
+            height: 20px;
+            background: #fff0f5;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 40px 5px 0 #fff0f5, 80px 0 0 #fff0f5, 120px 8px 0 #fff0f5, 160px -2px 0 #fff0f5;
+        }
+
+        /* Slice Animation Classes */
+        .cake-body.cut-open {
+            transform: scale(0.9) translateY(20px);
+            opacity: 0; /* Fade out the main cake to reveal the inside */
+        }
+        
+        .cake-left, .cake-right {
+            position: absolute;
+            bottom: 10px;
+            width: 120px;
+            height: 140px;
+            background: #ff9eb5;
+            z-index: 3;
+            transition: transform 1s ease, opacity 1s;
+            border-radius: 20px 0 0 10px;
+            opacity: 0;
+        }
+        
+        .cake-right {
+            right: 30px; /* Adjust based on positioning */
+            border-radius: 0 20px 10px 0;
+        }
+
+        .cake-left.reveal {
+            opacity: 1;
+            transform: translateX(-60px) rotate(-5deg);
+        }
+        .cake-right.reveal {
+            opacity: 1;
+            transform: translateX(60px) rotate(5deg);
+        }
+
+        /* Inside Message/Photo */
+        .hidden-message {
+            position: absolute;
+            bottom: 30px;
+            width: 180px;
+            height: 160px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            z-index: 1; /* Behind the cake initially */
+            transform: scale(0) translateY(50px);
+            transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hidden-message.show {
+            transform: scale(1.2) translateY(-80px); /* Pop up high */
+            z-index: 10;
+        }
+
+        .hidden-img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 3px;
+            margin-bottom: 5px;
+        }
+
+        .hidden-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            color: #d81b60;
+            line-height: 1.2;
+        }
+
+        /* --- Candles --- */
+        .candles-container {
+            position: absolute;
+            top: -25px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            z-index: 5;
+        }
+
+        .candle {
+            position: relative;
+            width: 12px;
+            height: 35px;
+            background: repeating-linear-gradient(45deg, #ffeb3b, #ffeb3b 5px, #ff9800 5px, #ff9800 10px);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .flame {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 20px;
+            background: radial-gradient(ellipse at center, #fff 0%, #ffeb3b 40%, #ff9800 100%);
+            border-radius: 50% 50% 20% 20%;
+            animation: flicker 0.1s infinite alternate;
+            box-shadow: 0 0 20px #ffeb3b, 0 0 40px #ff9800;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .smoke {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 20px;
+            background: rgba(255,255,255,0.5);
+            filter: blur(2px);
+            opacity: 0;
+            border-radius: 50%;
+        }
+
+        /* --- Animations --- */
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.9; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+        }
+
+        @keyframes puff {
+            0% { opacity: 0.8; transform: translateX(-50%) translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-30px) scale(2); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* UI Buttons */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+            z-index: 100;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .instruction {
+            margin-top: 30px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .title { font-size: 2.5rem; }
+            .cake-stage { transform: scale(0.8); }
+            .nav-buttons { padding: 0 20px; }
+            .btn { font-size: 0.7rem; padding: 10px 15px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="stars" id="starsContainer"></div>
+
+    <div class="title" id="mainTitle">Make a Wish..❤️</div>
+
+    <div class="cake-stage">
+        <div class="plate"></div>
+
+        <div class="hidden-message" id="hiddenMessage">
+            <img src="1.jpg" alt="Us" class="hidden-img">
+            <div class="hidden-text">You are my greatest gift. <br>Happy Birthday Sarkar! ❤️</div>
+        </div>
+
+        <div class="cake-left" id="cakeLeft"></div>
+        <div class="cake-right" id="cakeRight"></div>
+
+        <div class="cake-body" id="cakeBody">
+            <div class="frosting-drip"></div>
+            
+            <div class="candles-container">
+                <div class="candle" onclick="blowCandle(this)">
+                    <div class="flame"></div>
+                    <div class="smoke"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="instruction" id="instructionText">Tap the candle to blow it out</div>
+
+    <div class="nav-buttons">
+        <button class="btn" onclick="location.href='memory.html'">Back</button>
+        <button class="btn" onclick="location.href='letter.html'">Next Surprise</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // --- Generate Stars ---
+        const starsContainer = document.getElementById('starsContainer');
+        for(let i=0; i<50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+            starsContainer.appendChild(star);
+        }
+
+        // --- Candle Logic ---
+        let candlesBlown = 0;
+        const totalCandles = 1;
+        const title = document.getElementById('mainTitle');
+        const instruction = document.getElementById('instructionText');
+        const cakeBody = document.getElementById('cakeBody');
+
+        function blowCandle(candleElement) {
+            const flame = candleElement.querySelector('.flame');
+            const smoke = candleElement.querySelector('.smoke');
+
+            if(flame.style.opacity === '0') return; // Already blown
+
+            // Extinguish
+            flame.style.opacity = '0';
+            smoke.style.animation = 'puff 1s forwards';
+            candlesBlown++;
+
+            // Check if all blown
+            if(candlesBlown === totalCandles) {
+                setTimeout(() => {
+                    instruction.innerHTML = "✨ Make a wish... then <b>TAP THE CAKE</b> to cut it! ✨";
+                    instruction.style.color = "#ffeb3b";
+                    cakeBody.style.cursor = "pointer";
+                    
+                    // Add click event to cake to cut it
+                    cakeBody.addEventListener('click', cutTheCake);
+                }, 500);
+            }
+        }
+
+        // --- Cake Cutting Logic ---
+        function cutTheCake() {
+            // 1. Hide the main cake body
+            cakeBody.style.opacity = '0';
+            
+            // 2. Animate the halves opening
+            document.getElementById('cakeLeft').classList.add('reveal');
+            document.getElementById('cakeRight').classList.add('reveal');
+            
+            // 3. Show the hidden message/photo
+            document.getElementById('hiddenMessage').classList.add('show');
+            
+            // 4. Update Title
+            title.innerText = "Yay! Happy Birthday!";
+
+            // 5. Hide instructions
+            instruction.style.opacity = '0';
+
+            // 6. Launch Confetti
+            fireConfetti();
+        }
+
+        function fireConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            var random = function(min, max) { return Math.random() * (max - min) + min; }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                // since particles fall down, start a bit higher than random
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+    </script>
+</body>
+</html>
