@@ -36,7 +36,6 @@
             animation: fadeIn 3s forwards 0.5s;
         }
 
-        /* Header Styles */
         header {
             text-align: center;
             margin-bottom: 40px;
@@ -50,7 +49,6 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
-        /* Letter Section */
         .letter-container {
             background: rgba(255, 255, 255, 0.7);
             border-radius: 20px;
@@ -71,7 +69,6 @@
             white-space: pre-wrap;
         }
 
-        /* Surprise Button */
         .surprise-button-container {
             text-align: center;
             margin: 30px 0;
@@ -101,7 +98,6 @@
             box-shadow: 0 8px 25px rgba(161, 140, 209, 0.7);
         }
 
-        /* Surprise Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -129,8 +125,8 @@
             transition: all 0.3s ease;
             box-shadow: 0 0 30px rgba(255, 215, 232, 0.8);
             text-align: center;
-            max-height: 90vh; /* Prevent modal from going off screen */
-            overflow-y: auto; /* Allow scrolling if content is too long */
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-overlay.active {
@@ -153,21 +149,8 @@
             cursor: pointer;
             z-index: 10;
             line-height: 1;
-            transition: color 0.2s ease;
         }
 
-        .modal-close:hover {
-            color: #ff6b6b;
-        }
-
-        /* Modal Content Styling */
-        #modal-body-content {
-            width: 100%;
-            display: block;
-            min-height: 100px;
-        }
-
-        /* Navigation */
         .back-button {
             display: inline-block;
             margin-top: 20px;
@@ -186,7 +169,6 @@
             color: white;
         }
 
-        /* Music Controls */
         .music-controls {
             position: fixed;
             bottom: 20px;
@@ -201,15 +183,8 @@
             align-items: center;
             box-shadow: 0 0 10px rgba(106, 76, 147, 0.3);
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .music-controls i {
-            color: #6a4c93;
-            font-size: 24px;
-        }
-
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -225,12 +200,6 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
-        }
-        
-        /* Urdu Font Class */
-        .urdu {
-            font-family: 'Noto Nastaliq Urdu', serif;
-            direction: rtl;
         }
     </style>
 </head>
@@ -260,8 +229,7 @@
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal">
             <button class="modal-close" id="modal-close">×</button>
-            <div id="modal-body-content">
-                </div>
+            <div id="modal-body-content"></div>
         </div>
     </div>
 
@@ -282,47 +250,36 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            // --- TYPED.JS CONFIGURATION ---
             const letterContent = 
-"سرِ طور ہو، سرِ حشر ہو، ہمیں انتظار قبول ہے\nوہ کبھی ملیں، وہ کہیں ملیں، وہ کبھی سہی، وہ کہیں سہی\n\n" +
+"سرِ طور ہو، سرِحشر ہو، ہمیں انتظار قبول ہے\nوہ کبھی ملیں، وہ کہیں ملیں، وہ کبھی سہی، وہ کہیں سہی\n\n" +
 
-"As I'm writing this, so many memories come back… clear, soft, warm.\n" +
-"Aur haan, mujhe woh pehli baar bhi yaad hai jab maine tumhe black dress mein dekha tha.\n" +
-"Is liye kaha tha na ke black dress kam pehna karo haha… sach bolun toh uss din bas aik hi thought tha:\n" +
-"'Okay… wow.'\n\n" +
+"As I’m writing this, so many memories come back…. ya isa asa bolu acha din…\n" +
+"Wasa ap ko pta ha ma apko kb sa janta hu …. Hmmm janta toh bacpan sa hu ap ka nana ki wja sa ap ki bi bacpan ma gari bandkho ati thi ap apna nana ka stt jati thi or meri upper geo nashta wla us sap ss 😅 ap roz when sa ghuzarti thi tb sa janta hu lakin kabi ap ko dekha nhi dekhta toh roz tha lakin pir bi \n" +
+"ASAL MA TOH AP KO \n" +
+"Ap ka ghr ma dekha tha mera 9 k board ki tyari kr rha tha sun shine ka stt stt parhna ki khosis kr rha tah 😅 tb dekha tha ap shid usi waqt naha ka ayi thi black dress or tawal sa hair wash kr rhi thi zindgi ma phali br kisi ko dekh kr nazar ruk gyi thi or ma sach ma haran ka ku 😅 ma na toh ap ko kabi dekha bi nhi ap toh yad bi nhi thi lakin us din ka bd roz dekhta tha adat lg gyi thi pta nhi achi adat bolu ya buri …. \n\n" +
 
-"Par agar sach bataun… toh dekha toh maine tumhe bachpan se hi hai.\n" +
-"Mujhe sab yaad hai—tumhara woh route, woh jagah jahan se tum roz guzarti theen.\n" +
-"Aur shayad attraction bhi wahan se shuru hui ho sakti hai…\n" +
-"Kyunke tumhare **Nana Abu** (Allah unko Jannat mein ala muqam de)\n" +
-"subha Fajar ke waqt azaan dete the.\n" +
-"Jab hum gari ka intezar kar rahe hotay thay, toh hum sab cousins hans kar kehte thay:\n" +
-"'Azaan denay walay Baba aa gaye!' haha.\n\n" +
+"Pir din bd board khtm hua clg lga tb pta chla ap ki gari 7 bja ati ha ma jo roz 7:20 pa ghr sa jna wla 6:50 pa tyar ho ka niklna lg gya 😅 ka dekhu toh sai jo itna dur sa itna pyari lg gyi wo akir dikhti kasi ha \n" +
+"Yakeen krn ap na mera qatal kr dena ap ko jb phali br dekha tha na ap mujha bilkul hmri class ma 5 tk co edu thi class ma 1 lrki thi pagal si ajeeb ap mujha wsi lgi 😅 yrr ma parashan ya kia tha pura din ajeeb ghuzra dil nhi mna kl pir aya pir aya pir roz he masla ya tha ka ap ko dil ki ankhoo na dekh lya tha pasand kr lya tha or ap phali larki thi jo pasand ayi mana kbi larkio ka bara ma socha nhi lakin ap phali thi or aj tk phali he hn or mujha yakeen ha hamasha phali he rahn gi or ap ko maza ki bt bato ma na 4 year uni ma bi kisi lark isa hello hi tk nhi kya 😅 mujha dosto na 1 dfa was he tng kya ku group bna lya kr proj ka etc etc tb ma na bola yra mangni hui ha is lya 😅 uska bd wo smj ga pir unho nak bi nhi bola or yhn toh mangni bi pta nhi honi ha ka nhi 😅😂\n\n" +
 
-"Waisa main aaj tak heran hota hoon…\n" +
-"Ke maine tumhe kabhi face-to-face pareshan nahi kiya,\n" +
-"kabi paas se dekhne ki himmat nahi hui,\n" +
-"jitni dafa rasta mein mila chance…\n" +
-"phir bhi darr lagta tha.\n" +
-"Is liye rasta tak badal liya…\n" +
-"Shareef insan hoon, rasta mein mar khana achha nahi lagta hahaha.\n\n" +
+"or ap ko andaza nhi ha jb ap ko phali br facebook pa msg kya ma itna dra hua tha phal toh tha pa accept nhi krn gi laki jb ap ka msg aya mri jo halat thi ma himat he nhi ho rhi thi reply ki meri jo halat thi mujha he pta ha or ap na phla din he kha dya tha I respect your feeling Muneeb……..wsa ap bht zalim hn 😅😂 \n" +
+"Pir aysta aysta msg kam krna lg gya pir sirf eid eid pa ma toh sirf eid ka inazar krta tha kb eid aya kb ap ko msg kru or Umeed lga leta tha kb ap pochn kidr gyb ho 😅😂 dil toh bacha ha na g 😅😂 lakin ap na kabi 1 dfa bi kud msg nhi kya \n\n" +
 
-"And then came your message… **14 September 2018 — 9:27 AM**.\n" +
-"Bilkul random, bilkul unexpected,\n" +
-"par pata nahi kyun, uss aik text ne sab kuch change kar diya.\n" +
-"Conversation itni naturally shuru hui ke aaj tak khatam hi nahi hui.\n\n" +
+"Insta pa bi ap na pir 3 sal bd reply kya wo bi sirf react birthday wish pa ma dekhta rha shid abi reply kr dn sirf thank u he bol dn lakin nhi pir khati hn ma zalim nhi hu \n\n" +
 
-"Happy Birthday… and thank you.\n" +
-"For being a memory I never want to lose.\n\n" +
+"Lakin pta nhi ku lakin ap ka bra ma jana acha lgta tha ap kya kr rhi hn etc etc ap na comsats ma bi test dya merit list mana dekhi thi wasa ap ka hona muskil tha udr ap nan am bht end pa tha 😅 ap ka army ka bi test dya AMC when bi nhi pir end pa medical clg ya shid last option pa Rakha hua tha apna was thora bht toh ap ka bra ma janta hu ka nhi …\n" +
+"Was ap ko agr ma khi mil gya ap na toh qatal he kr dena 😅 bach ka Rahna parha ga mujha \n\n" +
 
-"Aur ek baat aur… agar kabhi kisi lafz se, kisi baat se,\n" +
-"kisi message se tumhein bura laga ho ya disrespect feel hua ho…\n" +
-"toh **I'm really sorry**.\n" +
-"Maine pehle bhi kaha hai — mujhe wish karna nahi aata…\n" +
-"bas dil ki baat likh deta hoon.\n\n" +
+"Par agar sach bataun… toh dekha toh maine tumhe bachpan se hi hai.  \nMujhe sab yaad hai—tumhara woh route, woh jagah jahan se tum roz guzarti theen.  \nAur shayad attraction bhi wahan se shuru hui ho sakti hai…  \nKyunke tumhare **Nana Abu** (Allah unko Jannat mein ala muqam de)  \n.  \nJab hum gari ka intezar kar rahe hotay thay, toh hum sab cousins hans kar kehte thay:  \n‘Azaan denay walay Baba aa gaye!’ unka stt ap ko hamasha dekha 😅.\n\n" +
 
-"May Allah fill your life with ease, sukoon, khushiyan,\n" +
-"and moments that make your heart smile in ways words never can. ❤️\n";
+"Waisa main aaj tak heran hota hoon…  \nKe maine apko kabhi face-to-face aj tk kabi pss sa nhi dekha kbi himt he nhi hui itni dfa rasta ma khra hona ka bd bi 😅😂 ab toh rasta he bdl lya itni himt nhi ha shareef insan ab rasta ma mar khta acha lga ga 😅😂...\n\n" +
+
+"And i still remember first conversatiin jb ap ko msg kya tha… 14 September 2018 — 9:27 AM.  \nBilkul random, unexpected,  \nap kon? acha tum wo he ho na jo roz rasta ma khara hota ..........😅 i still remember \nab jb be sochta hu toh ajeeb lgat........\n\n" +
+
+"Happy Birthday… and thank you.  \nFor being a memory I never want to lose.\n\n" +
+
+"AUR EK BAAT AUR… AGAR KABHI KISI LAFZ SE, KISI BAAT SE, KISI MESSAGE SE APKO BURA LAGA HO YA DISRESPECT FEEL HUA HO… TO I’M REALLY SORRY. MAINE PEHLE BHI KAHA HAI — MUJHE WISH KARNA NAHI AATA… NA MUJHA BAT KRNI ATI HA BAS DIL KI BAAT LIKH DETA HOON. AND AGAIN THANK YOU\n\n" +
+
+"May Allah fill your life with ease, sukoon, khushiyan,  \nand moments that make your heart smile in ways words never can. ❤️\n";
 
             new Typed("#typed-text", {
                 strings: [letterContent],
@@ -332,93 +289,37 @@
                 showCursor: false
             });
 
-            // --- SURPRISE MODAL LOGIC ---
             const surpriseButton = document.getElementById('surprise-button');
             const modalOverlay = document.getElementById('modal-overlay');
             const modalClose = document.getElementById('modal-close');
             const modalBody = document.getElementById('modal-body-content');
 
-            // CLICK EVENT
             surpriseButton.addEventListener('click', function() {
-                console.log('Surprise button clicked!'); // Debug log
-                
-                // INJECT THE PHONE NUMBER & MESSAGE FIRST
                 modalBody.innerHTML = `
                     <div style="padding: 20px; text-align: center;">
                         <h2 style="color:#6a4c93; margin-bottom:15px; font-size: 1.8rem;">📱 My Number Only For You</h2>
                         <h1 style="font-size:2.2rem; color:#000; margin-bottom:25px; font-weight:800; letter-spacing: 2px;">03185538074</h1>
-
                         <p style="font-size:1.1rem; margin-bottom:25px; line-height: 1.6; color:#333;">
-                        Ya mera number ha… 💗<br>
-                        Is pa msg kr den…<br>
-                        Apka number <b>SARKAR</b> name se save krni ki bohot khwaish ha 😂❤️
+                            Ya mera number ha… 💗<br>Is pa msg kr den…<br>Apka number <b>SARKAR</b> name se save krni ki bohot khwaish ha 😅❤️
                         </p>
-
-                        <div style="background: rgba(255, 240, 245, 0.8); padding: 20px; border-radius: 15px; margin-top: 20px; border-left: 4px solid #6a4c93; box-shadow: 0 3px 10px rgba(106, 76, 147, 0.2);">
+                        <div style="background: rgba(255, 240, 245, 0.8); padding: 20px; border-radius: 15px; margin-top: 20px; border-left: 4px solid #6a4c93;">
                             <p style="font-size: 1rem; line-height: 1.7; color: #444; text-align: left; margin: 0; font-style: italic;">
                                 (sorry!!)<br><br>
-                                And… have a beautiful journey ahead.<br><br>
                                 I always pray to see you successful, happy, and fearless while chasing your dreams.<br><br>
-                                No matter how far life takes you, may every step bring you closer to everything your heart desires.<br><br>
                                 You deserve the best — today, tomorrow, and always.<br><br>
                                 Ameen… always praying for you.
                             </p>
                         </div>
                     </div>
                 `;
-                
-                // Show the modal
                 modalOverlay.classList.add('active');
-                
-                // Play sound (with error handling)
-                try {
-                    document.getElementById('click-sound').play().catch(e => {
-                        console.log('Could not play sound:', e);
-                    });
-                } catch (e) {
-                    console.log('Sound error:', e);
-                }
-
-                // CONFETTI EFFECT (with error handling)
-                try {
-                    confetti({
-                        particleCount: 200,
-                        spread: 80,
-                        origin: { y: 0.6 }
-                    });
-                } catch (e) {
-                    console.log('Confetti error:', e);
-                }
-                
-                console.log('Modal should now be visible'); // Debug log
+                try { document.getElementById('click-sound').play(); } catch (e) {}
+                try { confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } }); } catch (e) {}
             });
 
-            modalClose.addEventListener('click', function() {
-                console.log('Modal close button clicked');
-                modalOverlay.classList.remove('active');
-            });
+            modalClose.addEventListener('click', () => modalOverlay.classList.remove('active'));
+            modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) modalOverlay.classList.remove('active'); });
 
-            // Close on outside click
-            modalOverlay.addEventListener('click', function(e) {
-                if (e.target === modalOverlay) {
-                    console.log('Modal overlay clicked, closing modal');
-                    modalOverlay.classList.remove('active');
-                }
-            });
-
-            // Additional check to ensure elements exist
-            if (!surpriseButton || !modalOverlay || !modalClose || !modalBody) {
-                console.error('Some modal elements not found:', {
-                    surpriseButton: !!surpriseButton,
-                    modalOverlay: !!modalOverlay, 
-                    modalClose: !!modalClose,
-                    modalBody: !!modalBody
-                });
-            } else {
-                console.log('All modal elements found successfully!');
-            }
-
-            // --- MUSIC LOGIC ---
             const musicToggle = document.getElementById('music-toggle');
             const musicIcon = document.getElementById('music-icon');
             const backgroundMusic = document.getElementById('background-music');
@@ -427,12 +328,10 @@
             musicToggle.addEventListener('click', function() {
                 if (isPlaying) {
                     backgroundMusic.pause();
-                    musicIcon.classList.remove('fa-volume-up');
-                    musicIcon.classList.add('fa-volume-mute');
+                    musicIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
                 } else {
                     backgroundMusic.play();
-                    musicIcon.classList.remove('fa-volume-mute');
-                    musicIcon.classList.add('fa-volume-up');
+                    musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
                 }
                 isPlaying = !isPlaying;
             });
