@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise For You ✨</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8e1f4, #e0c3f7, #c2e6ff);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 3s forwards 0.5s;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #6a4c93;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .letter-container {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(106, 76, 147, 0.3);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            position: relative;
+            z-index: 2;
+            min-height: 200px;
+            white-space: pre-wrap;
+        }
+
+        .surprise-button-container {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .surprise-button {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #a18cd1);
+            background-size: 300% 300%;
+            animation: gradientButton 5s ease infinite;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(161, 140, 209, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .surprise-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(161, 140, 209, 0.7);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal {
+            background: white;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(255, 215, 232, 0.8);
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            color: #6a4c93;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            line-height: 1;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid #6a4c93;
+            color: #6a4c93;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #6a4c93;
+            color: white;
+        }
+
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(106, 76, 147, 0.3);
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes gradientButton {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>For Special Person ❤️</h1>
+        </header>
+
+        <div class="letter-container">
+            <div class="letter" id="typed-text"></div>
+        </div>
+
+        <div class="surprise-button-container">
+            <button class="surprise-button" id="surprise-button">
+                Click for a Surprise! 🎁
+            </button>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="cake.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Birthday Cake
+            </a>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" id="modal-close">×</button>
+            <div id="modal-body-content"></div>
+        </div>
+    </div>
+
+    <div class="music-controls" id="music-toggle">
+        <i class="fas fa-volume-mute" id="music-icon"></i>
+    </div>
+
+    <audio id="click-sound" preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc098.mp3?filename=cute-notification-ringtone-1-173850.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="background-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=relaxing-145038.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.5.1/confetti.browser.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const letterContent = 
+"ہم کہ دشتِ جہاں کو آباد کیے بیٹھے ہیں...!\n" +
+"آرزوئے یار کو اب خاک کیے بیٹھے ہیں...!\n" +
+"کاش وہ آئے، جلائے یہاں کوئی چراغ...!\n" +
+"دل کے دربار کو ہم تاک کیے بیٹھے ہیں...!\n\n" +
+
+"As I’m writing this, so many memories come back…. ya isa asa bolu acha din…\n" +
+"Wasa ap ko pta ha ma apko kb sa janta hu …. Hmmm janta toh bacpan sa hu ap ka nana ki wja sa ap ki bi bacpan ma gari bandkho ati thi ap apna nana ka stt jati thi or meri upper geo nashta wla us sap ss 😅 ap roz when sa ghuzarti thi tb sa janta hu lakin kabi ap ko dekha nhi dekhta toh roz tha lakin pir bi \n" +
+"ASAL MA TOH AP KO \n" +
+"Ap ka ghr ma dekha tha mera 9 k board ki tyari kr rha tha sun shine ka stt stt parhna ki khosis kr rha tah 😅 tb dekha tha ap shid usi waqt naha ka ayi thi black dress or tawal sa hair wash kr rhi thi zindgi ma phali br kisi ko dekh kr nazar ruk gyi thi or ma sach ma haran ka ku 😅 ma na toh ap ko kabi dekha bi nhi ap toh yad bi nhi thi lakin us din ka bd roz dekhta tha adat lg gyi thi pta nhi achi adat bolu ya buri …. \n\n" +
+
+"Pir din bd board khtm hua clg lga tb pta chla ap ki gari 7 bja ati ha ma jo roz 7:20 pa ghr sa jna wla 6:50 pa tyar ho ka niklna lg gya 😅 ka dekhu toh sai jo itna dur sa itna pyari lg gyi wo akir dikhti kasi ha \n" +
+"Yakeen krn ap na mera qatal kr dena ap ko jb phali br dekha tha na ap mujha bilkul hmri class ma 5 tk co edu thi class ma 1 lrki thi pagal si ajeeb ap mujha wsi lgi 😅 yrr ma parashan ya kia tha pura din ajeeb ghuzra dil nhi mna kl pir aya pir aya pir roz he masla ya tha ka ap ko dil ki ankhoo na dekh lya tha pasand kr lya tha or ap phali larki thi jo pasand ayi mana kbi larkio ka bara ma socha nhi lakin ap phali thi or aj tk phali he hn or mujha yakeen ha hamasha phali he rahn gi or ap ko maza ki bt bato ma na 4 year uni ma bi kisi lark isa hello hi tk nhi kya 😅 mujha dosto na 1 dfa was he tng kya ku group bna lya kr proj ka etc etc tb ma na bola yra mangni hui ha is lya 😅 uska bd wo smj ga pir unho nak bi nhi bola or yhn toh mangni bi pta nhi honi ha ka nhi 😅😂\n\n" +
+
+"or ap ko andaza nhi ha jb ap ko phali br facebook pa msg kya ma itna dra hua tha phal toh tha pa accept nhi krn gi laki jb ap ka msg aya mri jo halat thi ma himat he nhi ho rhi thi reply ki meri jo halat thi mujha he pta ha or ap na phla din he kha dya tha I respect your feeling Muneeb……..wsa ap bht zalim hn 😅😂 \n" +
+"Pir aysta aysta msg kam krna lg gya pir sirf eid eid pa ma toh sirf eid ka inazar krta tha kb eid aya kb ap ko msg kru or Umeed lga leta tha kb ap pochn kidr gyb ho 😅😂 dil toh bacha ha na g 😅😂 lakin ap na kabi 1 dfa bi kud msg nhi kya \n\n" +
+
+"Insta pa bi ap na pir 3 sal bd reply kya wo bi sirf react birthday wish pa ma dekhta rha shid abi reply kr dn sirf thank u he bol dn lakin nhi pir khati hn ma zalim nhi hu \n\n" +
+
+"Lakin pta nhi ku lakin ap ka bra ma jana acha lgta tha ap kya kr rhi hn etc etc ap na comsats ma bi test dya merit list mana dekhi thi wasa ap ka hona muskil tha udr ap nan am bht end pa tha 😅 ap ka army ka bi test dya AMC when bi nhi pir end pa medical clg ya shid last option pa Rakha hua tha apna was thora bht toh ap ka bra ma janta hu ka nhi …\n" +
+"Was ap ko agr ma khi mil gya ap na toh qatal he kr dena 😅 bach ka Rahna parha ga mujha \n\n" +
+
+"Par agar sach bataun… toh dekha toh maine tumhe bachpan se hi hai.  \nMujhe sab yaad hai—tumhara woh route, woh jagah jahan se tum roz guzarti theen.  \nAur shayad attraction bhi wahan se shuru hui ho sakti hai…  \nKyunke tumhare **Nana Abu** (Allah unko Jannat mein ala muqam de)  \n.  \nJab hum gari ka intezar kar rahe hotay thay, toh hum sab cousins hans kar kehte thay:  \n‘Azaan denay walay Baba aa gaye!’ unka stt ap ko hamasha dekha 😅.\n\n" +
+
+"Waisa main aaj tak heran hota hoon…  \nKe maine apko kabhi face-to-face aj tk kabi pss sa nhi dekha kbi some himt he nhi hui itni dfa rasta ma khra hona ka bd bi 😅😂 ab toh rasta he bdl lya itni himt nhi ha shareef insan ab rasta ma mar khta acha lga ga 😅😂...\n\n" +
+
+"And i still remember first conversatiin jb ap ko msg kya tha… 14 September 2018 — 9:27 AM.  \nBilkul random, unexpected,  \nap kon? acha tum wo he ho na jo roz rasta ma khara hota ..........😅 i still remember \nab jb be sochta hu toh ajeeb lgat........\n\n" +
+
+"Happy Birthday… and thank you.  \nFor being a memory I never want to lose.\n\n" +
+
+"AUR EK BAAT AUR… AGAR KABHI KISI LAFZ SE, KISI BAAT SE, KISI MESSAGE SE APKO BURA LAGA HO YA DISRESPECT FEEL HUA HO… TO I’M REALLY SORRY. MAINE PEHLE BHI KAHA HAI — MUJHE WISH KARNA NAHI AATA… NA MUJHA BAT KRNI ATI HA BAS DIL KI BAAT LIKH DETA HOON. AND AGAIN THANK YOU\n\n" +
+
+"May Allah fill your life with ease, sukoon, khushiyan,  \nand moments that make your heart smile in ways words never can. ❤️\n";
+
+            new Typed("#typed-text", {
+                strings: [letterContent],
+                typeSpeed: 25,
+                backSpeed: 0,
+                loop: false,
+                showCursor: false
+            });
+
+            const surpriseButton = document.getElementById('surprise-button');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalClose = document.getElementById('modal-close');
+            const modalBody = document.getElementById('modal-body-content');
+
+            surpriseButton.addEventListener('click', function() {
+                modalBody.innerHTML = `
+                    <div style="padding: 20px; text-align: center;">
+                        <h2 style="color:#6a4c93; margin-bottom:15px; font-size: 1.8rem;">📱 My Number Only For You</h2>
+                        <h1 style="font-size:2.2rem; color:#000; margin-bottom:25px; font-weight:800; letter-spacing: 2px;">03185538074</h1>
+                        <p style="font-size:1.1rem; margin-bottom:25px; line-height: 1.6; color:#333;">
+                            Ya mera number ha… 💗<br>Is pa msg kr den…<br>Apka number <b>SARKAR</b> name se save krni ki bohot khwaish ha 😅❤️
+                        </p>
+                        <div style="background: rgba(255, 240, 245, 0.8); padding: 20px; border-radius: 15px; margin-top: 20px; border-left: 4px solid #6a4c93;">
+                            <p style="font-size: 1rem; line-height: 1.7; color: #444; text-align: left; margin: 0; font-style: italic;">
+                                (sorry!!)<br><br>
+                                I always pray to see you successful, happy, and fearless while chasing your dreams.<br><br>
+                                You deserve the best — today, tomorrow, and always.<br><br>
+                                Ameen… always praying for you.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                modalOverlay.classList.add('active');
+                try { document.getElementById('click-sound').play(); } catch (e) {}
+                try { confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } }); } catch (e) {}
+            });
+
+            modalClose.addEventListener('click', () => modalOverlay.classList.remove('active'));
+            modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) modalOverlay.classList.remove('active'); });
+
+            const musicToggle = document.getElementById('music-toggle');
+            const musicIcon = document.getElementById('music-icon');
+            const backgroundMusic = document.getElementById('background-music');
+            let isPlaying = false;
+
+            musicToggle.addEventListener('click', function() {
+                if (isPlaying) {
+                    backgroundMusic.pause();
+                    musicIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+                } else {
+                    backgroundMusic.play();
+                    musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+                }
+                isPlaying = !isPlaying;
+            });
+        });
+    </script>
+</body>
+</html>
